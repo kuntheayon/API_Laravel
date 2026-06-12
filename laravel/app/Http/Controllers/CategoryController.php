@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {

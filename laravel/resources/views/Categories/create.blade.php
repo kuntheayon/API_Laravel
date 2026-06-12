@@ -10,14 +10,14 @@
     </a>
 </div>
 
-<form action="{{ route('categories.store') }}" method="POST" class="p-6 space-y-5">
+<form action="{{ route('api.categories.store') }}" method="POST" class="p-6 space-y-5" data-api-form data-redirect="{{ route('categories.index') }}">
     @csrf
     
     <div>
         <label class="block text-sm font-semibold text-gray-700 mb-1" for="name">Name</label>
         <input type="text" id="name" name="name" value="{{ old('name') }}" class="w-full px-3 py-2 border @error('name') border-red-500 ring-1 ring-red-100 @else border-gray-300 @enderror rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
         @error('name')
-            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
+            <p class="mt-1 text-xs text-red-600 font-medium" data-error-for="name">{{ $message }}</p>
         @enderror
     </div>
 
@@ -25,13 +25,14 @@
         <label class="block text-sm font-semibold text-gray-700 mb-1" for="description">Description</label>
         <textarea id="description" name="description" rows="4" class="w-full px-3 py-2 border @error('description') border-red-500 ring-1 ring-red-100 @else border-gray-300 @enderror rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('description') }}</textarea>
         @error('description')
-            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
+            <p class="mt-1 text-xs text-red-600 font-medium" data-error-for="description">{{ $message }}</p>
         @enderror
     </div>
 
     <div class="flex items-center">
         <label class="inline-flex items-center cursor-pointer text-sm font-semibold text-gray-700 select-none">
             Is Active
+            <input type="hidden" name="is_active" value="0">
             <input type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active') ? 'checked' : '' }} class="ml-2 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
         </label>
     </div>
