@@ -37,7 +37,7 @@
                 <td class="px-6 py-4 space-x-2 flex items-center">
                     <a href="{{ route('categories.edit', $category->id) }}" class="text-blue-600 hover:text-blue-800 font-medium underline">Edit</a>
                     
-                    <form action="{{ route('api.categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?');" class="inline" data-api-form data-redirect="{{ route('categories.index') }}">
+                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?');" class="inline" data-api-form data-redirect="{{ route('categories.index') }}">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="text-blue-600 hover:text-blue-800 font-medium underline cursor-pointer">Delete</button>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @yield('page_title', 'Category App')
+    <title>@yield('page_title', 'Category App')</title>
     
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     
@@ -59,24 +59,30 @@
                 const data = await response.json().catch(() => ({}));
 
                 if (!response.ok) {
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = originalText;
+                    }
+
                     if (data.errors) {
                         Object.entries(data.errors).forEach(([field, messages]) => {
                             const control = form.querySelector(`[name="${field}"]`);
                             const error = form.querySelector(`[data-error-for="${field}"]`);
 
                             if (control) {
+                                control.classList.remove('border-gray-300');
                                 control.classList.add('border-red-500', 'ring-1', 'ring-red-100');
                             }
 
                             if (error) {
+                                error.classList.remove('hidden');
                                 error.textContent = Array.isArray(messages) ? messages[0] : messages;
                             }
                         });
                     }
 
-                    if (submitButton) {
-                        submitButton.disabled = false;
-                        submitButton.textContent = originalText;
+                    if (data.message) {
+                        alert(data.message);
                     }
 
                     return;
@@ -94,6 +100,18 @@
         }
 
         document.querySelectorAll('[data-api-form]').forEach((form) => {
+            form.querySelectorAll('input, textarea, select').forEach((element) => {
+                element.addEventListener('input', () => {
+                    element.classList.remove('border-red-500', 'ring-1', 'ring-red-100');
+                    element.classList.add('border-gray-300');
+                    const error = form.querySelector(`[data-error-for="${element.name}"]`);
+                    if (error) {
+                        error.classList.add('hidden');
+                        error.textContent = '';
+                    }
+                });
+            });
+
             form.addEventListener('submit', handleApiFormSubmit);
         });
     </script>
